@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<glassfish-web-app error-url="/error.xhtml">
+  <context-root>/MovieProject</context-root>
+  <property name="alternatedocroot_1" value="from=/MovieImages/* dir=/srv/videotheque/images"/>
+  <property name="alternatedocroot_2" value="from=/ActorImages/* dir=/srv/videotheque/images"/>
+  <property name="alternatedocroot_2" value="from=/Movies/* dir=/srv/videotheque/movies"/>
+  <security-role-mapping>
+    <role-name>User</role-name>
+    <group-name>User</group-name>
+  </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Admin</role-name>
+    <group-name>Admin</group-name>
+  </security-role-mapping>
+    <security-role-mapping>
+    <role-name>Manager</role-name>
+    <group-name>Manager</group-name>
+  </security-role-mapping>
+    <security-role-mapping>
+    <role-name>Employee</role-name>
+    <group-name>Employee</group-name>
+  </security-role-mapping>
+    <class-loader delegate="true"/>
+  <jsp-config>
+    <property name="keepgenerated" value="true">
+      <description>Keep a copy of the generated servlet class' java code.</description>
+    </property>
+  </jsp-config>
+8
+  </glassfish-web-app>

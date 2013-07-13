@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <h:outputStylesheet name="movies.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile - Movies</title>
+        <h:outputScript library="script" name="jquery-1.9.1.min.js"/>
+        <h:outputScript library="script" name="movies.js"/>
+    </h:head>
+    <h:body>
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div id="content">
+                <h:form id="contentForm">
+                    <h:outputText id="pileName" value="#{pileService.pileName}:"/><br/>
+                    <div id="movies" style="min-height:260px">
+                        <ul id="movieList">
+                            <h:panelGroup id="moviePile">
+                                <ui:repeat value="#{pileService.page}" var="item">
+                                    <li class="movie">
+                                        <h:panelGroup class="movieData" id="movieData" >
+                                            <h:outputText rendered="#{pileService.movieId == item.id}" value="#{item.name}"/>
+                                        </h:panelGroup>
+                                        <h:link outcome="/movie?faces-redirect=true">
+                                            <f:param name="id" value="#{item.id}"/>
+                                            <h:graphicImage height="255px" width="180px" url="/MovieImages/#{item.imageId}">
+                                                <f:ajax event="mouseout" render="movieData" listener="#{pileService.clearMovieData()}"/>
+                                                <f:ajax event="mouseover" render="movieData" listener="#{pileService.loadMovieData(item)}"/>
+                                            </h:graphicImage>
+                                        </h:link>
+                                    </li>
+                                </ui:repeat>
+                            </h:panelGroup>
+                        </ul>
+                        <h:panelGroup id='controller'>
+                            <p class="center">
+                                <h:commandButton id='prev' rendered='#{not pileService.minPage}' value='Prev Page'>
+                                    <f:ajax render='moviePile controller' event='click' listener='#{pileService.getPreviousPage}'/>
+                                </h:commandButton>
+                                <h:commandButton id='next' rendered='#{not pileService.maxPage}' value='Next Page'>
+                                    <f:ajax render='moviePile controller' event="click" listener='#{pileService.getNextPage}'/>
+                                </h:commandButton>
+                            </p>
+                        </h:panelGroup>
+                    </div>
+                    <div id="piles" align="center">
+                        <h:graphicImage value="/images/HorizontalRule.png" /><br/>
+                        <div class="master">
+                            <h:commandLink>
+                                <f:ajax render="@form" event="click" listener="#{pileService.setMoviesPile()}"/>
+                                <h:graphicImage rendered="#{pileService.movieImages.size() > 0}" class="thumbnail first" value="/MovieImages/#{pileService.movieImages.get(0)}"/>
+                                <h:graphicImage rendered="#{pileService.movieImages.size() > 1}" class="thumbnail second" value="/MovieImages/#{pileService.movieImages.get(1)}"/>
+                                <h:graphicImage rendered="#{pileService.movieImages.size() > 2}" class="thumbnail third" value="/MovieImages/#{pileService.movieImages.get(2)}"/>
+                                <h:outputText styleClass="pileLabel" value="All Movies"/>
+                            </h:commandLink>
+                        </div>
+                        <div class="master">
+                            <h:commandLink>
+                                <f:ajax render="@form" event="click" listener="#{pileService.setBestsellerPile()}"/>
+                                <h:graphicImage rendered="#{pileService.bestImages.size() > 0}" class="thumbnail first" value="/MovieImages/#{pileService.bestImages.get(0)}"/>
+                                <h:graphicImage rendered="#{pileService.bestImages.size() > 1}" class="thumbnail second" value="/MovieImages/#{pileService.bestImages.get(1)}"/>
+                                <h:graphicImage rendered="#{pileService.bestImages.size() > 2}" class="thumbnail third" value="/MovieImages/#{pileService.bestImages.get(2)}"/>
+                                <h:outputText styleClass="pileLabel" value="Bestsellers"/>
+                            </h:commandLink>
+                        </div>
+                        <div class="master">
+                            <h:commandLink>
+                                <f:ajax render="@form" event="click" listener="#{pileService.setQueuePile()}"/>
+                                <h:graphicImage rendered="#{pileService.queueImages.size() > 0}" class="thumbnail first"  value="/MovieImages/#{pileService.queueImages.get(0)}"/>
+                                <h:graphicImage rendered="#{pileService.queueImages.size() > 1}" class="thumbnail second" value="/MovieImages/#{pileService.queueImages.get(1)}"/>
+                                <h:graphicImage rendered="#{pileService.queueImages.size() > 2}" class="thumbnail third"  value="/MovieImages/#{pileService.queueImages.get(2)}"/>
+                                <h:outputText styleClass="pileLabel" value="Queue"/>
+                            </h:commandLink>
+                        </div>
+                        <div class="master">
+                            <h:commandLink>
+                                <f:ajax render="@form" event="click" listener="#{pileService.setSuggestionPile()}"/>
+                                <h:graphicImage rendered="#{pileService.suggestImages.size() > 0}" class="thumbnail first" value="/MovieImages/#{pileService.suggestImages.get(0)}"/>
+                                <h:graphicImage rendered="#{pileService.suggestImages.size() > 1}" class="thumbnail second" value="/MovieImages/#{pileService.suggestImages.get(1)}"/>
+                                <h:graphicImage rendered="#{pileService.suggestImages.size() > 2}" class="thumbnail third" value="/MovieImages/#{pileService.suggestImages.get(2)}"/>
+                                <h:outputText styleClass="pileLabel" value="Suggestions"/>
+                            </h:commandLink>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+

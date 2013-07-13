@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputScript library="script" name="jquery-1.9.1.min.js"/>
+        <h:outputScript library="script" name="carousel.js"/>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile</title>
+    </h:head>
+    <h:body>
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div style="margin:30px;">
+                <div class="blackbox">
+                    <div class="image">
+                        <img style="position:absolute;" width="627" height="253" src="/MovieImages/VideoPileCover.png"/>
+                        <img class="slideshow" src="" />
+                    </div>
+                    <div class="center">
+                        <a class="nav" id="1">*</a>
+                        <a class="nav" id="2">*</a>
+                        <a class="nav" id="3">*</a>
+                        <a class="nav" id="4">*</a>
+                        <script>
+                            $("a#1").click(imgOne);
+                            $("a#2").click(imgTwo);
+                            $("a#3").click(imgThree);
+                            $("a#4").click(imgFour);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

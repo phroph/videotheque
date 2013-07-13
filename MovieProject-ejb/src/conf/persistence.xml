@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="MovieProject-ejbPU" transaction-type="JTA">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>jdbc/videothequeDatasource</jta-data-source>
+    <class>org.Videotheque.Entities.Actor</class>
+    <class>org.Videotheque.Entities.Customer</class>
+    <class>org.Videotheque.Entities.Employee</class>
+    <class>org.Videotheque.Entities.Movie</class>
+    <class>org.Videotheque.Entities.Orders</class>
+    <class>org.Videotheque.Entities.Rental</class>
+    <class>org.Videotheque.Entities.Groups</class>
+    <class>org.Videotheque.Entities.Account</class>
+    <class>org.Videotheque.Entities.DBCustomer</class>
+    <class>org.Videotheque.Entities.Person</class>
+    <class>org.Videotheque.Entities.UserGroup</class>
+    <class>org.Videotheque.Entities.AppearedIn</class>
+    <class>org.Videotheque.Entities.DBEmployee</class>
+    <class>org.Videotheque.Entities.Location</class>
+    <class>org.Videotheque.Entities.MovieQ</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.connection.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
+    </properties>
+  </persistence-unit>
+</persistence>

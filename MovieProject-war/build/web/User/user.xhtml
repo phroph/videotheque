@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile - User</title>
+    </h:head>
+    <h:body>
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div id="content">
+                Edit User Information:<br/><br/>
+                <div id="subcontent">
+                    Leave any field blank to leave it unchanged.<br/>   
+                    <h:form>
+                        <h:outputLabel for="type" value="Account Type: "/>
+                        <h:selectOneListbox id="type" value="#{userService.editAccountType}">
+                            <f:selectItems value="#{userService.getAccountTypes()}" var="group" itemValue="#{group}" itemLabel="#{group}"/>
+                            <f:validator validatorId="org.Videotheque.AccountTypeValidator"/>
+                            <f:attribute name="ccn" value="#{userService.ccn}" />
+                        </h:selectOneListbox>
+                        <h:message for="type"/><br/>
+                        <h:outputLabel for="ccn" value="Credit Card Number: "/>
+                        <h:inputText id="ccn" binding="#{userService.ccn}" value="#{userService.editCCN}"/><br/> 
+                        <h:outputLabel for="address" value="Address: "/>
+                        <h:inputText id="address" value="#{userService.editAddress}"/><br/>
+                        <h:outputLabel for="zipcode" value="Zipcode: "/>
+                        <h:inputText id="zipcode" value="#{userService.editZipcode}"/><br/>
+                        <h:outputLabel for="city" value="City: "/>
+                        <h:inputText id="city" value="#{userService.editCity}"/><br/>
+                        <h:outputLabel for="state" value="State: "/>
+                        <h:inputText id="state" value="#{userService.editState}"/><br/>
+                        <h:outputLabel for="telephone" value="Telephone: "/>
+                        <h:inputText id="telephone" value="#{userService.editTelephone}"/><br/>
+                        <h:outputLabel for="password" value="Password: "/>
+                        <h:inputText id="password" value="#{userService.editPassword}">
+                            <f:validator validatorId="org.Videotheque.PasswordValidator"/>
+                            <f:attribute name="confirmPassword" value="#{userService.confirmPassword}" />
+                        </h:inputText>
+                        <h:message for="password"/><br/>
+                        <h:outputLabel for="verifyPassword" value="Re-enter Password: "/>
+                        <h:inputText id="verifyPassword" binding="#{userService.confirmPassword}" value="#{userService.editVerifyPassword}"/><br/>
+                        <h:commandButton value="Submit Changes" action="#{userService.editAccount()}"/>
+                    </h:form>
+                    <h:link style="color:#000000;" target="_blank" outcome="/User/history" value="View Rental History"/> 
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

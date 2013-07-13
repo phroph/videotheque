@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputScript library="script" name="jquery-1.9.1.min.js"/>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <h:outputScript name="collapse.js" library="script" />
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile - Help</title>
+    </h:head>
+    <h:body>
+
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div id="content">
+                <div id="helpcontent">
+                    <h2>Help Page</h2>
+
+                    <a href="#" style="color:#000000;" class="collapsor">Contract All</a> | <a style="color:#000000;" href="#" class="expander">Expand All</a>
+
+                    <h3 class="parent">How much does your service cost?</h3>
+                    <div class="collapsible">
+                        $10/month for the limited plan, and we also have 3 unlimited plans:<br/>
+                        $15/month for 1 movie out at-a-time;<br/>
+                        $20/month for 2 movies out at-a-time;<br/>
+                        $25/month for 3 movies at-a-time.<br/>
+                        For those who want to simply look-around, we provide free access to view our entire collection.
+                    </div>
+
+                    <h3 class="parent">What is the difference between the limited and unlimited plan?</h3>
+                    <div class="collapsible">
+                        We here at VideoPile offer 4 kind of plans. 1 limited, and 3 unlimited.
+                        There are 4 types of plans, 1 limited plan and 3 unlimited plans.
+                        The limited plan allows one to view 1 movie at-a-time and at most 2 movies per month.
+                        The 3 unlimited plans allow one to view 1-3 movies at-a-time, respectively, and place no limit on how many movies you can view per month.
+                        The limited plan has the lowest monthly fee, whereas for the 3 unlimited plans, the more movies the user chooses to have access to at-a-time, the higher the monthly fee. 
+                    </div>
+
+                    <h3 class="parent">How do I sign up?</h3>
+                    <div class="collapsible">
+                        You can sign up by registering a new account with us, and choosing your plan during the registration process.
+                        Registration is free, and takes 2 minutes!
+                    </div>
+                    <h3 class="parent">What is a movie queue?</h3>
+                    <div class="collapsible">
+                        A movie queue is a way of checking out movies you want to watch in the near future,
+                        if your watching the latest episode of Batman, and now want to see great adventures of AhmadMan, 
+                        simply add AhmadMan to your queue, by clicking the 'add to queue' button, and it will be waiting
+                        for you.
+                    </div>
+
+                    <h3 class="parent">How do I cancel my service?</h3>
+                    <div class="collapsible">
+                        We hate to see you considering leaving us; To cancel, You can call out retention department at 1-800-FML-CANCEL and ask for Phil. 
+                    </div>
+
+                    <!--<h3 class="parent">I forgot my username and password?</h3>
+                    <div class="collapsible">
+                        Please click the link below to reset your password/username. If you still need help, dont hesitate to contact us at 1800-FML-CANCEL
+                        our technicians would be more than glad to assist you!
+                    </div>-->
+                    
+                    <h3 class="parent">Still have unanswered questions?</h3>
+                    <div class="collapsible">
+                        Call us at 1-866-579-7172, and ask for Chris.
+                    </div>
+                    <br/>
+
+                </div>
+
+            </div>
+            
+        </div>
+
+    </h:body>
+</html>

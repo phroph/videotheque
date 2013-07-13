@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile - Sign-Up</title>
+    </h:head>
+    <h:body>
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div id="content">
+                Create Account.
+                <h:form>
+                    <h:outputLabel value="Email: " for="username"/>
+                    <h:inputText required="true" validator="#{emailValidator.validate}" requiredMessage="You must enter a username." id="username" value="#{customerService.username}"/>
+                    <br/>
+                    <h:message errorClass="error" fatalClass="error" infoClass="info" for="username"/><br/>
+                    <h:outputLabel value="Password: " for="password"/>
+                    <h:inputSecret required="true" requiredMessage="You must enter a password." id="password" value="#{customerService.password}">
+                        <f:validator validatorId="org.Videotheque.PasswordValidator"/>
+                        <f:attribute name="confirmPassword" value="#{userService.confirmPassword}" />
+                    </h:inputSecret><br/>
+                    <h:message errorClass="error" fatalClass="error" infoClass="info" for="password"/><br/>
+                    <h:outputLabel value="Confirm Password: " for="confirmPassword"/>
+                    <h:inputSecret required="true" binding="#{userService.confirmPassword}" requiredMessage="You must confirm your password." id="confirmPassword" value="#{customerService}"/><br/>
+                    <h:message errorClass="error" fatalClass="error" infoClass="info" for="confirmPassword"/><br/>
+                    <h:commandButton id="submit" type="click" value="Submit" binding="#{customerService.errorLabel}" action="#{customerService.validateEmail()}" /><br/>
+                    <h:message errorClass="error" fatalClass="error" infoClass="info" for="submit"/>
+                </h:form>
+            </div>  
+        </div>
+    </h:body>
+</html>
+

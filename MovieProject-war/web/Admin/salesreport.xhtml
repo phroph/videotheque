@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile</title>
+    </h:head>
+    <h:body>
+        <f:event type="preRenderView" listener="#{adminService.authorize}" />
+        <div id="body">
+            <div id="content">
+                Sales Report:
+                <ul>
+                    <li>Number of free accounts: #{adminService.numFreeAccounts}</li>
+                    <li>Number of limited accounts: #{adminService.numLimitedAccounts}</li>
+                    <li>Number of unlimited-1 accounts: #{adminService.numUnlimited1Accounts}</li>
+                    <li>Number of unlimited-2 accounts: #{adminService.numUnlimited2Accounts}</li>
+                    <li>Number of unlimited-3 accounts: #{adminService.numUnlimited3Accounts}</li>
+                    <li>Total Monthly Sales: $#{adminService.salesReport}</li>
+                </ul>
+            </div>
+        </div>
+    </h:body>
+</html>
+

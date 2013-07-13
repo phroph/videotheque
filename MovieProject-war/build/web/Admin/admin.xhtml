@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile - Administration</title>
+    </h:head>
+    <h:body>
+        <f:event type="preRenderView" listener="#{adminService.authorize}" />
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div id="content">
+                <h:form id="adminPanel" class="adminPanel">
+                    <!--<h:commandButton id="admin" value="Administrative Actions" rendered="{adminService.hasAdminPrivileges()}">
+                        <f:ajax render="@form" event="click" listener="{adminService.toggleAdminPane()}"/>
+                    </h:commandButton>-->
+                    <h:commandButton id="manager" type="submit" value="Manager Actions" rendered="#{adminService.hasManagerPrivileges()}">
+                        <f:ajax render="@form" event="click" listener="#{adminService.toggleManagerPane()}"/>
+                    </h:commandButton>
+                    <h:commandButton id="representative" type="submit" value="Representative Actions" rendered="#{adminService.hasRepresentativePrivileges()}" >
+                        <f:ajax render="@form" event="click" listener="#{adminService.toggleRepresentativePane()}"/>
+                    </h:commandButton>
+                    <br/>
+                    <!--<f:subview id="administrativeActionPane" rendered="{userService.showAdminPane}">
+                        Admin Pane
+                    </f:subview>-->
+                    <f:subview id="managerialActionPane" rendered="#{adminService.showManagerPane}">
+                        <h:commandButton id="editmovies" value="Movies">
+                            <f:ajax event="click" render="@form" listener="#{adminService.toggleMoviePane()}"/>
+                        </h:commandButton>
+                        <h:commandButton id="employes" value="Employees">
+                            <f:ajax render="@form" event="click" listener="#{adminService.toggleEmployeePane()}"/>
+                        </h:commandButton>
+                        <h:commandButton id="sales" onclick="this.form.target = '_blank';" value="View Sales Report" action="/Admin/salesreport"/>
+                        <h:commandButton id="employees" onclick="this.form.target = '_blank';" value="View Most Active Employees" action="/Admin/activeemployees"/>
+                        <h:commandButton id="customers" onclick="this.form.target = '_blank';" value="View Most Active Customers" action="/Admin/activecustomers"/>
+                        <h:commandButton id="movies" onclick="this.form.target = '_blank';" value="View Most Active Movies" action="/Admin/activemovies"/> 
+                        <br/>
+                        <f:subview id="moviesEditPane" rendered="#{adminService.showMoviePane}">
+                            <ul class="adminList">
+                            <ui:repeat value="#{adminService.currentMoviePage}" var="movie">
+                                <li>
+                                <f:subview id="viewMovie" rendered="#{adminService.movieId ne movie.id}">
+                                    Name: #{movie.name}<br/>
+                                    <div style='width:250px;'>Description: #{movie.description}</div><br/>
+                                    Actors: <br/>
+                                    
+                                    <ui:repeat value="#{movie.actors}" var="actor">
+                                        <f:subview id="viewActor" rendered="#{adminService.actorId ne actor.id or adminService.actorMovieId ne movie.id}">
+                                            Name: #{actor.name} Age: #{actor.age}<br/>
+                                            Gender: #{actor.gender} Rating: #{actor.rating}<br/>
+                                            <div style='width:250px;'>Description: #{actor.description}</div><br/>
+                                        </f:subview>
+                                    </ui:repeat>
+                                    Genre:#{movie.type}<br/>
+                                    Distribution Fee:#{movie.distrFee}<br/>
+                                    Number of Copies:#{movie.numCopies}<br/>
+                                    
+                                    
+                                    <f:subview id='addExistingActor' rendered='#{adminService.showAddExistingActorPane and adminService.actorMovieId eq movie.id}'>
+                                        <h:outputLabel for='id' value="Id: "/><h:inputText value="#{adminService.actorExistingActorId}"/>
+                                        <h:commandButton id='save' value='Submit' type='submit'>
+                                            <f:ajax render='@form' event='click' execute="@form" listener='#{adminService.saveExistingActor(movie)}'/>
+                                        </h:commandButton>
+                                        <h:commandButton id="cancel" value="Cancel Edit">
+                                            <f:ajax render="@form" event="click" listener="#{adminService.cancelEdit()}"/>
+                                        </h:commandButton><br/>
+                                    </f:subview>
+                                    <h:commandButton id="edit" value="Edit" type="submit">
+                                        <f:ajax render="@form" event="click" listener="#{adminService.editMovie(movie)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="addactor" value="Add Existing Actor">
+                                        <f:ajax render="@form" event="click" listener="#{adminService.addExistingActor(movie.id)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="delete" value="Delete">
+                                        <f:ajax render="@form" event="click" listener="#{adminService.deleteMovie(movie)}"/>
+                                    </h:commandButton><br/>
+                                </f:subview>
+                                <f:subview id="editMovie" rendered="#{adminService.movieId eq movie.id}">
+                                    <h:outputLabel for="firstName" value="First Name: "/><h:inputText id="firstName" value="#{adminService.movieName}"/><br/>
+                                    <h:outputLabel for="description" value="Description: "/><h:inputTextarea id="description" value="#{adminService.movieDescription}"/><br/>
+                                    <h:outputLabel for="type" value="Type "/><h:inputText id="type" value="#{adminService.movieType}"/><br/>
+                                    <h:outputLabel for="distfee" value="Distribution Fee: "/><h:inputText id="distfee" value="#{adminService.movieDistFee}"/><br/>
+                                    <h:outputLabel for="numcopies" value="Number of Copies: "/><h:inputText id="numcopies" value="#{adminService.movieNumCopies}"/><br/>
+                                    <h:outputLabel for="imageurl" value="Movie Cover URL: "/><h:inputText id="imageurl" value="#{adminService.movieImageURL}"/><br/>
+                                    <h:commandButton id="saveEdit" type="submit" value="Save">
+                                        <f:ajax render='@form' execute="@form" event='click' listener="#{adminService.saveMovie(movie)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="cancelEdit" type="submit" value="Cancel">
+                                        <f:ajax render='@form' event='click' listener="#{adminService.cancelEdit()}"/>
+                                    </h:commandButton>
+                                </f:subview>
+                                </li>
+                            </ui:repeat>
+                            </ul>
+                            <br/>
+                            <div style="display:block;clear:left">
+                                <h:commandButton rendered="#{not adminService.minMoviePage()}" value="Previous Page">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.prevMoviePage()}"/>
+                                </h:commandButton>
+                                <h:commandButton value="Add Movie">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.addMovie()}"/>
+                                </h:commandButton>
+                                <h:commandButton value="Next Page" rendered="#{not adminService.maxMoviePage()}">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.nextMoviePage()}"/>
+                                </h:commandButton>
+                            </div>
+                        </f:subview>
+                        <f:subview id="employeesEditPane" rendered="#{adminService.showEmployeePane}">
+                            <ul class="adminList">
+                            <ui:repeat value="#{adminService.currentEmployeePage}" var="employee">
+                                <li>
+                                <f:subview id="viewEmp" rendered="#{adminService.employeeId ne employee.id}">
+                                    First Name: #{employee.firstName}<br/>
+                                    Last Name: #{employee.lastName}  <br/>
+                                    Zipcode: #{employee.zipCode} <br/>                                           
+                                    Address: #{employee.address} <br/>
+                                    Hourly Rate: #{employee.hourlyRate} <br/>
+                                    Telephone: #{employee.telephone} <br/>
+                                    <h:commandButton id="edit" value="Edit" type="submit">
+                                        <f:ajax render='@form' event='click' listener="#{adminService.editEmployee(employee)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="delete" value="Delete">
+                                        <f:ajax render="@form" event="click" listener="#{adminService.deleteEmployee(employee)}"/>
+                                    </h:commandButton>
+                                </f:subview>
+                                <f:subview id="editEmp" rendered="#{adminService.employeeId eq employee.id}">
+                                    <h:outputLabel for="firstName" value="First Name: "/><h:inputText id="firstName" value="#{adminService.employeeFirstName}"/><br/>
+                                    <h:outputLabel for="lastName" value="Last Name: "/><h:inputText id="lastName" value="#{adminService.employeeLastName}"/><br/>
+                                    <h:outputLabel for="zipcode" value="Zipcode: "/><h:inputText id="zipcode" value="#{adminService.employeeZipcode}"/><br/>
+                                    <h:outputLabel for="address" value="Address: "/><h:inputText id="address" value="#{adminService.employeeAddress}"/><br/>
+                                    <h:outputLabel for="hourlyrate" value="Hourly Rate: "/><h:inputText id="hourlyrate" value="#{adminService.employeeHourlyRate}"/><br/>
+                                    <h:outputLabel for="telephone" value="Telephone: "/><h:inputText id="telephone" value="#{adminService.employeeTelephone}"/><br/>
+                                    <h:commandButton id="saveEdit" type="submit" value="Save">
+                                        <f:ajax render="@form" event='click' execute="@form" listener="#{adminService.saveEmployee(employee)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="cancelEdit" type="submit" value="Cancel">
+                                        <f:ajax render='@form' event='click' execute='@form' listener='#{adminService.cancelEdit()}'/>
+                                    </h:commandButton>
+                                </f:subview>
+                                <br/></li>
+                            </ui:repeat>
+                            </ul>
+                            <br/>
+                            <div style="display:block;clear:left">
+                                <h:commandButton rendered="#{not adminService.minEmployeePage()}" value="Previous Page">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.prevEmployeePage()}"/>
+                                </h:commandButton>
+                                <h:commandButton value="Add Employee">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.addEmployee()}"/>
+                                </h:commandButton>
+                                <h:commandButton value="Next Page" rendered="#{not adminService.maxEmployeePage()}">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.nextEmployeePage()}"/>
+                                </h:commandButton>
+                            </div>
+                        </f:subview>
+                    </f:subview>
+                    <f:subview id="representativeActionPane" rendered="#{adminService.showRepresentativePane}">
+                        <h:commandButton id="recordOrder" value="Record Order">
+                            <f:ajax render="@form" event="click" listener="#{adminService.toggleOrderPane()}"/>
+                        </h:commandButton>
+                        <h:commandButton id="customers" value="Customers">
+                            <f:ajax render="@form" event="click" listener="#{adminService.toggleCustomerPane()}"/>
+                        </h:commandButton>
+                        <h:commandButton id="mailingList" onclick="this.form.target = '_blank';" value="View Mailing List" action="/Admin/mailinglist"/><br/>
+                        <f:subview id="orderPane" rendered="#{adminService.showOrderPane}">
+                            <h:outputLabel for="movie" value="Movie Title: "/><h:inputText id="movie" value="#{adminService.orderTitle}"/><br/>
+                            <h:outputLabel for="user" value="User Email: "/><h:inputText id="user" value="#{adminService.orderEmail}"/><br/>
+                            <h:outputLabel for="employee" value="Employee ID: "/><h:inputText id="employee" value="#{adminService.orderEmployeeId}"/><br/>
+                            <h:commandButton binding="#{adminService.order}" id="save" type="submit" value="Submit">
+                                <f:ajax render="@form" execute="@form" event="click" listener="#{adminService.addOrder()}"/>
+                            </h:commandButton><br/>
+                            <h:message for="save"/>
+                        </f:subview>
+                        <f:subview id="customerPane" rendered="#{adminService.showCustomerPane}">
+                            <ul class="adminList">
+                            <ui:repeat id="customersList" value="#{adminService.currentCustomerPage}" var="customer">
+                                <li>
+                                <f:subview id="editCustomer" rendered="#{adminService.customerId eq customer.id}">
+                                    <h:outputLabel for="email" value="Email: "/><h:inputText id="email" value="#{adminService.customerEmail}"/><br/>
+                                    <h:outputLabel for="firstName" value="First Name: "/><h:inputText id="firstName" value="#{adminService.customerFirstName}"/><br/>
+                                    <h:outputLabel for="lastName" value="Last Name: "/><h:inputText id="lastName" value="#{adminService.customerLastName}"/><br/>
+                                    <h:outputLabel for="group" value="User Group: "/>
+                                    <h:selectOneListbox id="group" value="#{adminService.customerGroup}">
+                                        <f:selectItems value="#{adminService.getUserGroups()}" var="group" itemValue="#{group}" itemLabel="#{group}" noSelectionValue="#{adminService.getUserGroups().get(0)}"/>
+                                    </h:selectOneListbox><br/>
+                                    <h:outputLabel for="type" value="Type: "/>
+                                    <h:selectOneListbox id="type" value="#{adminService.customerType}">
+                                        <f:selectItems value="#{adminService.getUserTypes()}" var="type" itemValue="#{type}" itemLabel="#{type}" noSelectionValue="#{adminService.getUserTypes().get(0)}"/>
+                                    </h:selectOneListbox><br/>
+                                    <h:outputLabel for="address" value="Address: "/><h:inputText id="address" value="#{adminService.customerAddress}"/><br/>
+                                    <h:outputLabel for="zipcode" value="Zipcode: "/><h:inputText id="zipcode" value="#{adminService.customerZipcode}"/><br/>
+                                    <h:outputLabel for="telephone" value="Telephone: "/><h:inputText id="telephone" value="#{adminService.customerTelephone}"/><br/>
+                                    <h:commandButton id="saveEdit" type="submit" value="Save">
+                                        <f:ajax render="@form" execute="@form" event="click" listener="#{adminService.saveCustomer(customer)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="cancelEdit" type="submit" value="Cancel">
+                                        <f:ajax render="@form" event="click" listener="#{adminService.cancelEdit()}"/>
+                                    </h:commandButton>
+                                </f:subview>
+                                <f:subview id="viewCustomer" rendered="#{adminService.customerId ne customer.id}">
+                                    Email: #{customer.email}<br/>
+                                    First Name: #{customer.firstName}<br/>
+                                    Last Name: #{customer.lastName}<br/>
+                                    Group:  #{customer.group.name}<br/>
+                                    Type:   #{customer.type}<br/>
+                                    Address: #{customer.address}<br/>
+                                    Zipcode: #{customer.zipCode}<br/>
+                                    Telephone: #{customer.telephone}<br/>
+                                    <h:commandButton id="suggestion" onclick="this.form.target = '_blank';" value="View Suggestions" action="#{adminService.getSuggestionURL(customer.id)}"/>
+                                    <h:commandButton id="edit" value="Edit">
+                                        <f:ajax event="click" render="@form" listener="#{adminService.editCustomer(customer)}"/>
+                                    </h:commandButton>
+                                    <h:commandButton id="delete" value="Delete">
+                                        <f:ajax render="@form" event="click" listener="#{adminService.deleteCustomer(customer)}"/>
+                                    </h:commandButton>
+                                </f:subview>
+                                <br/>
+                                </li>
+                            </ui:repeat>
+                            </ul>    
+                            <br/>
+                            <div style="display:block;clear:left">
+                                <h:commandButton rendered="#{not adminService.minCustomerPage()}" value="Previous Page">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.prevCustomerPage()}"/>
+                                </h:commandButton>
+                                <h:commandButton value="Add Customer">
+                                    <f:ajax event="click" render="@form" listener="#{adminService.addCustomer()}"/>
+                                </h:commandButton>
+                                <h:commandButton value="Next Page" rendered="#{not adminService.maxCustomerPage()}">
+                                    <f:ajax render="@form" event="click" listener="#{adminService.nextCustomerPage()}"/>
+                                </h:commandButton>
+                            </div>
+                        </f:subview>
+                    </f:subview>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+

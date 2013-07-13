@@ -1,0 +1,68 @@
+/* 
+    Document   : movies
+    Created on : Apr 14, 2013, 12:43:38 AM
+    Author     : Phillip
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#movies {
+        font-size: 16px;
+}
+#moviesList {
+        display: inline;
+}
+.movie {
+        padding: 15px;
+        display: inline;
+}
+.thumbnail {
+        width: 60px;
+        height: 85px;
+}
+#best {
+        left: 0px;
+}
+#queue {
+        left: 150px;
+}
+#suggest {
+        left: 300px;
+}
+.darken {
+        background-color: #CCCCCC;
+}
+.master {
+        margin-left: 25px;
+        margin-right: 25px;
+        padding: 50px 25px 45px 25px;
+        display: inline;
+        position: relative;
+        top: 50px;
+}
+.first {
+        position: absolute;
+        left: 30px;
+        top: 10px;
+}
+.second {
+        position: absolute;
+        left: 40px;
+        top: 20px;
+}
+.third {
+        position: absolute;
+        left: 50px;
+        top: 30px;
+}
+.pileLabel {
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        color: black;
+        font-size: 16px;
+        top: 50px;
+}
+.movieData {
+        position: absolute;
+}

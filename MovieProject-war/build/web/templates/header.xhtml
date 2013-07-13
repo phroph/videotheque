@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>VideoPage - Header Template</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <div id="header">
+                <h:link outcome="#{userService.logoNavigationCase}"><h:graphicImage id="logo" url="/images/headertransparency.png"/></h:link>
+                <ul id="navbar">
+                    <li id="searchbar">
+                        <h:form >
+                            <h:outputLabel value="Search: " for="search" /><h:inputText id="search" value="#{searchService.query}"/>
+                            <h:commandButton value="Go" type="submit" action="/search?faces-redirect=true" style="display:none;"/>
+                        </h:form>
+                    </li>
+                    <li id="help"><h:link outcome="/help">Help</h:link></li>
+                    <li id="login"><h:form style="display:inherit"><h:commandLink actionListener="#{adminService.preparePage()}" action="#{userService.getLoginOutcome()}" >#{userService.getLoginName()}</h:commandLink></h:form></li>
+                    <li id="createAccount"><h:form><h:commandLink id="createAccount" action="#{userService.getCreateAccountOutcome()}">#{userService.getCreateAccountName()}</h:commandLink></h:form></li>
+                </ul>
+            </div>
+	</ui:composition>
+    </h:body>
+</html>
+

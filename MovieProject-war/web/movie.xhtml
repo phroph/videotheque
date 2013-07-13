@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <h:outputStylesheet name="header.css" library="css"/>
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'/>
+        <title>VideoPile - #{movieService.movieTitle}</title>
+    </h:head>
+    <f:event listener="#{movieService.loadMovie(param.id)}" type="preRenderView"/>
+    <h:body>
+        <div id="body">
+            <ui:insert name="header" >
+                <ui:include src="/templates/header.xhtml" />
+            </ui:insert>
+            <div id="content">
+                <h:outputText value="Movie was not found!" rendered="#{movieService.movie eq null}"/>
+                <ul style="display:inline;list-style:none;">
+                    <li style="display:inline;float:left;">
+                        <h:graphicImage rendered="#{movieService.movie ne null}" value="/MovieImages/#{movieService.movie.imageId}"/>
+                    </li>
+                    <li class="subcontent" style="display:inline;float:left;">
+                        <br/>
+                        <h:outputText class="strong" rendered="#{movieService.movie ne null}" value="#{movieService.movie.name}"/><br/>
+                        <h:outputText rendered="#{movieService.movie ne null}" value="#{movieService.movie.description}"/><br/>
+                        <h:outputText rendered="#{movieService.movie ne null}" value="#{movieService.movie.rating} / 5"/>
+                    </li>
+                </ul>
+                <h:form>
+                    <h:commandButton rendered="#{movieService.canAddToMovieQueue()}" value="Add to Movie Queue" action="#{movieService.addToMovieQueue()}" >
+                        <f:ajax render="@form" execute="@form"/>
+                    </h:commandButton>
+                    <h:commandButton onclick="this.form.target = '_blank';" rendered="#{movieService.canReturnMovie()}" value="Play Movie" action="/User/video.xhtml" />
+                    <h:commandButton rendered="#{movieService.canReturnMovie()}" value="Return Movie" action="#{movieService.returnMovie()}" >
+                        <f:ajax render="@form" execute="@form"/>
+                    </h:commandButton>
+                </h:form>
+                <div style="clear:left;">
+                    <h:outputText rendered="#{movieService.movie ne null}" value="Actors:"/><br/>
+                    <div class="subcontent">
+                        <ui:repeat rendered="#{movieService.movie ne null}" value="#{movieService.movie.actors}" var="actor">
+                            <h:outputText value="#{actor.name}"/><br/>
+                        </ui:repeat>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
